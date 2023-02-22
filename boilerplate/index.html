@@ -8,6 +8,15 @@
         <!--put your external stylesheet links here-->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+        <script type="text/javascript" src="lib/leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="quickstartTutorial.js"></script>
+        
+        <style>
+            #map{
+                height: 100vh;
+                width: 100%;
+            }
+        </style>
         <!--[if IE<9]>
             <link rel="stylesheet" href="css/style.ie.css">
         <![endif]-->
@@ -29,3 +38,12 @@
         <script type="text/javascript" src="quickstartTutorial.js"></script>
     </body>
 </html>
+
+<script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution: '&copy; <a hred="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+})
+osm.addTo(map);
+</script>

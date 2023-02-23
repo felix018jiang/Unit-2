@@ -201,14 +201,14 @@ var states = [{
     }
 }];
 
-L.geoJSON(states, {
-    style: function(feature) {
-        switch (feature.properties.party) {
-            case 'Republican': return {color: "#ff0000"};
-            case 'Democrat':   return {color: "#0000ff"};
-        }
-    }
-}).addTo(map);
+// L.geoJSON(states, {
+//     style: function(feature) {
+//         switch (feature.properties.party) {
+//             case 'Republican': return {color: "#ff0000"};
+//             case 'Democrat':   return {color: "#0000ff"};
+//         }
+//     }
+// });
 
 var geojsonMarkerOptions = {
     radius: 8,
@@ -223,7 +223,7 @@ L.geoJSON(someGeojsonFeature, {
     pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);
     }
-}).addTo(map);
+});
 
 
 map.on('click', onMapClick);

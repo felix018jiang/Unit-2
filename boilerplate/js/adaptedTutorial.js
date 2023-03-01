@@ -1,5 +1,7 @@
 var map;
 //function to instantiate the Leaflet map
+
+
 function createMap(){
     //create the map
     map = L.map('map', {

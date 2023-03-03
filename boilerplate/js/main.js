@@ -4,7 +4,7 @@
 var map;
 var minValue;
 
-function createMap(){
+function createMap() {
 
     //create the map
     map = L.map('map', {
@@ -15,24 +15,27 @@ function createMap(){
     //add OSM base tilelayer
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    });
+    var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
     }).addTo(map);
 
     //call getData function
     getData(map);
 };
 
-function calcMinValue(data){
+function calcMinValue(data) {
     //create empty array to store all data values
     var allValues = [];
     //loop through each city
-    for(var city of data.features){
+    for (var city of data.features) {
         //loop through each year
-        for(var year = 2012; year <= 2018; year +=1){
-              //get population for current year
-              var value = city.properties["gdp_" + String(year)];
-              //add value to array
-              allValues.push(value);
-              console.log(value);
+        for (var year = 2012; year <= 2018; year += 1) {
+            //get population for current year
+            var value = city.properties["gdp_" + String(year)];
+            //add value to array
+            allValues.push(value);
+            console.log(value);
         }
     }
     //get minimum value of our array
@@ -46,13 +49,13 @@ function calcPropRadius(attValue) {
     //constant factor adjusts symbol sizes evenly
     var minRadius = 5;
     //Flannery Apperance Compensation formula
-    var radius = 1.0083 * Math.pow(attValue/minValue,0.5715) * minRadius
+    var radius = 1.0083 * Math.pow(attValue / minValue, 0.5715) * minRadius
 
     return radius;
 };
 
 //function to convert markers to circle markers and add popups
-function pointToLayer(feature, latlng,attributes){
+function pointToLayer(feature, latlng, attributes) {
     //Determine which attribute to visualize with proportional symbols
     var attribute = attributes[0];
     //check
@@ -86,50 +89,50 @@ function pointToLayer(feature, latlng,attributes){
 
     //bind the popup to the circle marker
     layer.bindPopup(popupContent, {
-          offset: new L.Point(0,-options.radius)
-      });
+        offset: new L.Point(0, -options.radius)
+    });
 
     //return the circle marker to the L.geoJson pointToLayer option
     return layer;
 };
 
-function createPropSymbols(data, attributes){
+function createPropSymbols(data, attributes) {
     //create a Leaflet GeoJSON layer and add it to the map
     L.geoJson(data, {
-        pointToLayer: function(feature, latlng){
+        pointToLayer: function (feature, latlng) {
             return pointToLayer(feature, latlng, attributes);
         }
     }).addTo(map);
 };
 
 //Step 10: Resize proportional symbols according to new attribute values
-function updatePropSymbols(attribute){
-    map.eachLayer(function(layer){
-      console.log("here!");
-        if (layer.feature && layer.feature.properties[attribute]){
-          //access feature properties
-           var props = layer.feature.properties;
+function updatePropSymbols(attribute) {
+    map.eachLayer(function (layer) {
+        console.log("here!");
+        if (layer.feature && layer.feature.properties[attribute]) {
+            //access feature properties
+            var props = layer.feature.properties;
 
-           //update each feature's radius based on new attribute values
-           var radius = calcPropRadius(props[attribute]);
-           layer.setRadius(radius);
+            //update each feature's radius based on new attribute values
+            var radius = calcPropRadius(props[attribute]);
+            layer.setRadius(radius);
 
-           //add city to popup content string
-           var popupContent = "<p><b>City:</b> " + props.City + "</p>";
+            //add city to popup content string
+            var popupContent = "<p><b>City:</b> " + props.City + "</p>";
 
-           //add formatted attribute to panel content string
-           var year = attribute.split("_")[1];
-           popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " $</p>";
+            //add formatted attribute to panel content string
+            var year = attribute.split("_")[1];
+            popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " $</p>";
 
-           //update popup with new content
-           popup = layer.getPopup();
-           popup.setContent(popupContent).update();
+            //update popup with new content
+            popup = layer.getPopup();
+            popup.setContent(popupContent).update();
 
         };
     });
 };
 
-function processData(data){
+function processData(data) {
     //empty array to hold attributes
     var attributes = [];
 
@@ -137,9 +140,9 @@ function processData(data){
     var properties = data.features[0].properties;
 
     //push each attribute name into attributes array
-    for (var attribute in properties){
+    for (var attribute in properties) {
         //only take attributes with population values
-        if (attribute.indexOf("gdp") > -1){
+        if (attribute.indexOf("gdp") > -1) {
             attributes.push(attribute);
         };
     };
@@ -148,10 +151,10 @@ function processData(data){
 };
 
 //Step 1: Create new sequence controls
-function createSequenceControls(attributes){
+function createSequenceControls(attributes) {
     //create range input element (slider)
     var slider = "<input class='range-slider' type='range'></input>";
-    document.querySelector("#panel").insertAdjacentHTML('beforeend',slider);
+    document.querySelector("#panel").insertAdjacentHTML('beforeend', slider);
 
     //set slider attributes
     document.querySelector(".range-slider").max = 6;
@@ -160,24 +163,24 @@ function createSequenceControls(attributes){
     document.querySelector(".range-slider").step = 1;
 
     //add step buttons
-    document.querySelector('#panel').insertAdjacentHTML('beforeend','<button class="step" id="reverse">Reverse</button>');
-    document.querySelector('#panel').insertAdjacentHTML('beforeend','<button class="step" id="forward">Forward</button>');
+    document.querySelector('#panel').insertAdjacentHTML('beforeend', '<button class="step" id="reverse">Reverse</button>');
+    document.querySelector('#panel').insertAdjacentHTML('beforeend', '<button class="step" id="forward">Forward</button>');
 
     //replace button content with images
-    document.querySelector('#reverse').insertAdjacentHTML('beforeend',"<img src='img/backward.svg'>")
-    document.querySelector('#forward').insertAdjacentHTML('beforeend',"<img src='img/forward.svg'>")
+    document.querySelector('#reverse').insertAdjacentHTML('beforeend', "<img src='img/backward.svg'>")
+    document.querySelector('#forward').insertAdjacentHTML('beforeend', "<img src='img/forward.svg'>")
 
     var steps = document.querySelectorAll('.step');
 
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
+    steps.forEach(function (step) {
+        step.addEventListener("click", function () {
             var index = document.querySelector('.range-slider').value;
             //Step 6: increment or decrement depending on button clicked
-            if (step.id == 'forward'){
+            if (step.id == 'forward') {
                 index++;
                 //Step 7: if past the last attribute, wrap around to first attribute
                 index = index > 6 ? 0 : index;
-            } else if (step.id == 'reverse'){
+            } else if (step.id == 'reverse') {
                 index--;
                 //Step 7: if past the first attribute, wrap around to last attribute
                 index = index < 0 ? 6 : index;
@@ -192,7 +195,7 @@ function createSequenceControls(attributes){
     })
 
     //Step 5: input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
+    document.querySelector('.range-slider').addEventListener('input', function () {
         //Step 6: get the new index value
         var index = this.value;
 
@@ -201,13 +204,13 @@ function createSequenceControls(attributes){
     });
 };
 
-function getData(map){
+function getData(map) {
     //load the data
     fetch("data/USCities.geojson")
-        .then(function(response){
+        .then(function (response) {
             return response.json();
         })
-        .then(function(json){
+        .then(function (json) {
             var attributes = processData(json);
             minValue = calcMinValue(json);
             //call function to create proportional symbols
@@ -216,7 +219,7 @@ function getData(map){
         })
 };
 
-document.addEventListener('DOMContentLoaded',createMap)
+document.addEventListener('DOMContentLoaded', createMap)
 
 
 

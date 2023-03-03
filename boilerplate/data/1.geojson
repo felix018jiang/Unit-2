@@ -1,0 +1,27 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "gdp_2012": 189074,
+                "gdp_2013": 198312,
+                "gdp_2014": 204915,
+                "gdp_2015": 211807,
+                "gdp_2016": 222963,
+                "gdp_2017": 231845,
+                "gdp_2018": 245138,
+                "city name": "San Diego, CA, USA"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -117,
+                    33
+                ]
+            }
+        }
+        
+        
+    ]
+}

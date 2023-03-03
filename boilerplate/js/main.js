@@ -27,11 +27,12 @@ function calcMinValue(data){
     //loop through each city
     for(var city of data.features){
         //loop through each year
-        for(var year = 1985; year <= 2015; year+=5){
+        for(var year = 2012; year <= 2018; year +=1){
               //get population for current year
-              var value = city.properties["Pop_"+ String(year)];
+              var value = city.properties["gdp_" + String(year)];
               //add value to array
               allValues.push(value);
+              console.log(value);
         }
     }
     //get minimum value of our array
@@ -138,7 +139,7 @@ function processData(data){
     //push each attribute name into attributes array
     for (var attribute in properties){
         //only take attributes with population values
-        if (attribute.indexOf("Pop") > -1){
+        if (attribute.indexOf("gdp") > -1){
             attributes.push(attribute);
         };
     };

@@ -8,8 +8,8 @@ function createMap(){
 
     //create the map
     map = L.map('map', {
-        center: [0, 0],
-        zoom: 1
+        center: [38, -90],
+        zoom: 4
     });
 
     //add OSM base tilelayer
@@ -82,7 +82,7 @@ function pointToLayer(feature, latlng,attributes){
     //add formatted attribute to popup content string
     //var year = attribute.split("")[1];
     var year = attribute;
-    popupContent += "<p><b>Population in " + year + ":</b> " + feature.properties[attribute] + " million</p>";
+    popupContent += "<p><b>GDP in " + year.split("_")[1] + ":</b> " + feature.properties[attribute] + " $</p>";
 
     //bind the popup to the circle marker
     layer.bindPopup(popupContent, {
@@ -119,7 +119,7 @@ function updatePropSymbols(attribute){
 
            //add formatted attribute to panel content string
            var year = attribute.split("_")[1];
-           popupContent += "<p><b>Population in " + year + ":</b> " + props[attribute] + " million</p>";
+           popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " $</p>";
 
            //update popup with new content
            popup = layer.getPopup();

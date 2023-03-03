@@ -11,7 +11,7 @@
                 "gdp_2016": 1634671,
                 "gdp_2017": 1698122,
                 "gdp_2018": 1772319,
-                "city name": "New York, NY, USA"
+                "City": "New York, NY, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -31,7 +31,7 @@
                 "gdp_2016": 945600,
                 "gdp_2017": 995114,
                 "gdp_2018": 1047661,
-                "city name": "Los Angeles, CA, USA"
+                "City": "Los Angeles, CA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -51,7 +51,7 @@
                 "gdp_2016": 641589,
                 "gdp_2017": 659855,
                 "gdp_2018": 689464,
-                "city name": "Chicago, IL, USA"
+                "City": "Chicago, IL, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -71,7 +71,7 @@
                 "gdp_2016": 469472,
                 "gdp_2017": 509382,
                 "gdp_2018": 548613,
-                "city name": "San Francisco, CA, USA"
+                "City": "San Francisco, CA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -91,7 +91,7 @@
                 "gdp_2016": 500084,
                 "gdp_2017": 515553,
                 "gdp_2018": 540684,
-                "city name": "Washington, D.C., DC, USA"
+                "City": "Washington, D.C., DC, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -111,7 +111,7 @@
                 "gdp_2016": 458973,
                 "gdp_2017": 482218,
                 "gdp_2018": 512509,
-                "city name": "Dallas, TX, USA"
+                "City": "Dallas, TX, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -131,7 +131,7 @@
                 "gdp_2016": 430444,
                 "gdp_2017": 447521,
                 "gdp_2018": 478778,
-                "city name": "Houston, TX, USA"
+                "City": "Houston, TX, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -151,7 +151,7 @@
                 "gdp_2016": 421783,
                 "gdp_2017": 439144,
                 "gdp_2018": 463570,
-                "city name": "Boston, MA, USA"
+                "City": "Boston, MA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -171,7 +171,7 @@
                 "gdp_2016": 416110,
                 "gdp_2017": 422539,
                 "gdp_2018": 444148,
-                "city name": "Philadelphia, PA, USA"
+                "City": "Philadelphia, PA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -191,7 +191,7 @@
                 "gdp_2016": 369806,
                 "gdp_2017": 385542,
                 "gdp_2018": 397261,
-                "city name": "Atlanta, GA, USA"
+                "City": "Atlanta, GA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -211,7 +211,7 @@
                 "gdp_2016": 334411,
                 "gdp_2017": 356572,
                 "gdp_2018": 392036,
-                "city name": "Seattle, WA, USA"
+                "City": "Seattle, WA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -231,7 +231,7 @@
                 "gdp_2016": 330784,
                 "gdp_2017": 344882,
                 "gdp_2018": 354740,
-                "city name": "Miami, FL, USA"
+                "City": "Miami, FL, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -251,7 +251,7 @@
                 "gdp_2016": 253900,
                 "gdp_2017": 275293,
                 "gdp_2018": 331020,
-                "city name": "San Jose, CA, USA"
+                "City": "San Jose, CA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -271,7 +271,7 @@
                 "gdp_2016": 250430,
                 "gdp_2017": 260612,
                 "gdp_2018": 267731,
-                "city name": "Detroit, MI, USA"
+                "City": "Detroit, MI, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -291,7 +291,7 @@
                 "gdp_2016": 250376,
                 "gdp_2017": 260106,
                 "gdp_2018": 263690,
-                "city name": "Minneapolis, MN, USA"
+                "City": "Minneapolis, MN, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -311,7 +311,7 @@
                 "gdp_2016": 231011,
                 "gdp_2017": 242951,
                 "gdp_2018": 255211,
-                "city name": "Phoenix, AZ, USA"
+                "City": "Phoenix, AZ, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -331,7 +331,7 @@
                 "gdp_2016": 222963,
                 "gdp_2017": 231845,
                 "gdp_2018": 245138,
-                "city name": "San Diego, CA, USA"
+                "City": "San Diego, CA, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -351,7 +351,7 @@
                 "gdp_2016": 197068,
                 "gdp_2017": 208868,
                 "gdp_2018": 214157,
-                "city name": "Denver, CO, USA"
+                "City": "Denver, CO, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -371,7 +371,7 @@
                 "gdp_2016": 186856,
                 "gdp_2017": 192178,
                 "gdp_2018": 205313,
-                "city name": "Baltimore, MD, USA"
+                "City": "Baltimore, MD, USA"
             },
             "geometry": {
                 "type": "Point",
@@ -391,7 +391,7 @@
                 "gdp_2016": 168176,
                 "gdp_2017": 177061,
                 "gdp_2018": 187109,
-                "city name": "Riverside, CA, USA"
+                "City": "Riverside, CA, USA"
             },
             "geometry": {
                 "type": "Point",

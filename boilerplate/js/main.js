@@ -51,7 +51,6 @@ function calcPropRadius(attValue) {
     var minRadius = 5;
     //Flannery Apperance Compensation formula
     var radius = 1.0083 * Math.pow(attValue / minValue, 0.5715) * minRadius
-
     return radius;
 };
 
@@ -110,9 +109,10 @@ function createPropSymbols(data, attributes) {
 function updatePropSymbols(attribute) {
     map.eachLayer(function (layer) {
         console.log("here!");
-        document.querySelector("span.year").innerHTML = attribute;
+        var year = attribute.split("_")[1];
+        document.querySelector("span.year").innerHTML = year;
 
-        if (layer.feature && layer.feature.properties[attribute]) {
+        if (layer.feature) {
             //access feature properties
             var props = layer.feature.properties;
 
@@ -120,12 +120,15 @@ function updatePropSymbols(attribute) {
             var radius = calcPropRadius(props[attribute]);
             layer.setRadius(radius);
 
+            if (props.City ==  "Minneapolis, MN, USA")
+                console.log
+
             //add city to popup content string
             var popupContent = "<p><b>City:</b> " + props.City + "</p>";
 
             //add formatted attribute to panel content string
-            var year = attribute.split("_")[1];
-            popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " $</p>";
+            
+            popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " million$</p>";
 
             //update popup with new content
             popup = layer.getPopup();
@@ -205,6 +208,78 @@ function createSequenceControls(attributes) {
         //Step 9: pass new attribute to update symbols
         updatePropSymbols(attributes[index]);
     });
+};
+
+// ------- createsequencecontrol example code
+function createSequenceControls(attributes){   
+    
+    var SequenceControl = L.Control.extend({
+        options: {
+            position: 'bottomleft'
+        },
+
+        onAdd: function () {
+            // create the control container div with a particular class name
+            var container = L.DomUtil.create('div', 'sequence-control-container');
+
+            //create range input element (slider)
+            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">')
+
+            //add skip buttons
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse"><img src="img/backward.svg"></button>'); 
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward"><img src="img/forward.svg"></button>'); 
+
+            //disable any mouse event listeners for the container
+            L.DomEvent.disableClickPropagation(container);
+
+
+            return container;
+
+        }
+    });
+
+    map.addControl(new SequenceControl());
+
+    ///////add listeners after adding the control!///////
+    //set slider attributes
+    document.querySelector(".range-slider").max = 6;
+    document.querySelector(".range-slider").min = 0;
+    document.querySelector(".range-slider").value = 0;
+    document.querySelector(".range-slider").step = 1;
+
+    var steps = document.querySelectorAll('.step');
+
+    steps.forEach(function(step){
+        step.addEventListener("click", function(){
+            var index = document.querySelector('.range-slider').value;
+            //Step 6: increment or decrement depending on button clicked
+            if (step.id == 'forward'){
+                index++;
+                //Step 7: if past the last attribute, wrap around to first attribute
+                index = index > 6 ? 0 : index;
+            } else if (step.id == 'reverse'){
+                index--;
+                //Step 7: if past the first attribute, wrap around to last attribute
+                index = index < 0 ? 6 : index;
+            };
+
+            //Step 8: update slider
+            document.querySelector('.range-slider').value = index;
+
+            //Step 9: pass new attribute to update symbols
+            updatePropSymbols(attributes[index]);
+        })
+    })
+
+    //Step 5: input listener for slider
+    document.querySelector('.range-slider').addEventListener('input', function(){
+        //Step 6: get the new index value
+        var index = this.value;
+
+        //Step 9: pass new attribute to update symbols
+        updatePropSymbols(attributes[index]);
+    });
+
 };
 
 

@@ -20,10 +20,15 @@ function createMap() {
     var Esri_WorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
     }).addTo(map);
+    var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
     //call getData function
     getData(map);
 };
+
 
 function calcMinValue(data) {
     //create empty array to store all data values
@@ -63,7 +68,7 @@ function pointToLayer(feature, latlng, attributes) {
 
     //create marker options
     var options = {
-        fillColor: "#ff7800",
+        fillColor: "#98C7F5",
         color: "#000",
         weight: 1,
         opacity: 1,
@@ -120,14 +125,14 @@ function updatePropSymbols(attribute) {
             var radius = calcPropRadius(props[attribute]);
             layer.setRadius(radius);
 
-            if (props.City ==  "Minneapolis, MN, USA")
+            if (props.City == "Minneapolis, MN, USA")
                 console.log
 
             //add city to popup content string
             var popupContent = "<p><b>City:</b> " + props.City + "</p>";
 
             //add formatted attribute to panel content string
-            
+
             popupContent += "<p><b>GDP in " + year + ":</b> " + props[attribute] + " million$</p>";
 
             //update popup with new content
@@ -211,8 +216,8 @@ function createSequenceControls(attributes) {
 };
 
 // ------- createsequencecontrol example code
-function createSequenceControls(attributes){   
-    
+function createSequenceControls(attributes) {
+
     var SequenceControl = L.Control.extend({
         options: {
             position: 'bottomleft'
@@ -226,8 +231,8 @@ function createSequenceControls(attributes){
             container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">')
 
             //add skip buttons
-            container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse"><img src="img/backward.svg"></button>'); 
-            container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward"><img src="img/forward.svg"></button>'); 
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse"><img src="img/backward.svg"></button>');
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward"><img src="img/forward.svg"></button>');
 
             //disable any mouse event listeners for the container
             L.DomEvent.disableClickPropagation(container);
@@ -249,15 +254,15 @@ function createSequenceControls(attributes){
 
     var steps = document.querySelectorAll('.step');
 
-    steps.forEach(function(step){
-        step.addEventListener("click", function(){
+    steps.forEach(function (step) {
+        step.addEventListener("click", function () {
             var index = document.querySelector('.range-slider').value;
             //Step 6: increment or decrement depending on button clicked
-            if (step.id == 'forward'){
+            if (step.id == 'forward') {
                 index++;
                 //Step 7: if past the last attribute, wrap around to first attribute
                 index = index > 6 ? 0 : index;
-            } else if (step.id == 'reverse'){
+            } else if (step.id == 'reverse') {
                 index--;
                 //Step 7: if past the first attribute, wrap around to last attribute
                 index = index < 0 ? 6 : index;
@@ -272,7 +277,7 @@ function createSequenceControls(attributes){
     })
 
     //Step 5: input listener for slider
-    document.querySelector('.range-slider').addEventListener('input', function(){
+    document.querySelector('.range-slider').addEventListener('input', function () {
         //Step 6: get the new index value
         var index = this.value;
 
@@ -352,19 +357,19 @@ function createLegend(attributes) {
                 var cy = 59 - radius;
 
                 //circle string  
-                svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '"cy="' + cy + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="30"/>';
+                svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '"cy="' + cy + '" fill="#98C7F5" fill-opacity="0.7" stroke="#000000" cx="30"/>';
                 var textY = i * 20 + 20;
 
-        //text string
-        svg +=
-          '<text id="' +
-          circles[i] +
-          '-text" x="65" y="' +
-          textY +
-          '">' +
-          Math.round(dataStats[circles[i]])  +
-          " million $" +
-          "</text>";
+                //text string
+                svg +=
+                    '<text id="' +
+                    circles[i] +
+                    '-text" x="65" y="' +
+                    textY +
+                    '">' +
+                    Math.round(dataStats[circles[i]]) +
+                    " million $" +
+                    "</text>";
             };
 
             //close svg string  
@@ -374,11 +379,11 @@ function createLegend(attributes) {
 
             return container;
         }
-        
+
     });
 
     map.addControl(new LegendControl());
-    
+
 };
 
 

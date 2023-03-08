@@ -3,7 +3,6 @@
 //declare map variable globally so all functions have access
 var map;
 var minValue;
-var dataStats = {};
 
 function createMap() {
 
@@ -36,7 +35,7 @@ function calcMinValue(data) {
             var value = city.properties["gdp_" + String(year)];
             //add value to array
             allValues.push(value);
-            //console.log(value);
+            console.log(value);
         }
     }
     //get minimum value of our array
@@ -85,8 +84,8 @@ function pointToLayer(feature, latlng, attributes) {
 
     //add formatted attribute to popup content string
     //var year = attribute.split("")[1];
-    var year = attribute.split("_")[1];
-    popupContent += "<p><b>GDP in " + year + ":</b> " + feature.properties[attribute] + " million$</p>";
+    var year = attribute;
+    popupContent += "<p><b>GDP in " + year.split("_")[1] + ":</b> " + feature.properties[attribute] + " $</p>";
 
     //bind the popup to the circle marker
     layer.bindPopup(popupContent, {
@@ -110,8 +109,6 @@ function createPropSymbols(data, attributes) {
 function updatePropSymbols(attribute) {
     map.eachLayer(function (layer) {
         console.log("here!");
-        document.querySelector("span.year").innerHTML = attribute;
-
         if (layer.feature && layer.feature.properties[attribute]) {
             //access feature properties
             var props = layer.feature.properties;
@@ -207,7 +204,6 @@ function createSequenceControls(attributes) {
     });
 };
 
-
 function getData(map) {
     //load the data
     fetch("data/USCities.geojson")
@@ -220,96 +216,32 @@ function getData(map) {
             //call function to create proportional symbols
             createPropSymbols(json, attributes);
             createSequenceControls(attributes);
-            calcStats(json)
-            createLegend(attributes);
-
         })
 };
 
-function calcStats(data) {
-    //create empty array to store all data values
-    var allValues = [];
-    //loop through each city
+// function createPopupContent(properties, attribute){
+//     //add city to popup content string
+//     var popupContent = "<p><b>City:</b> " + properties.City + "</p>";
 
+//     //add formatted attribute to panel content string
+//     var year = attribute.split("_")[1];
+//     popupContent += "<p><b>Population in " + year + ":</b> " + properties[attribute] + " million</p>";
 
-    for (var city of data.features) {
-        //loop through each year
-        for (var year = 2012; year <= 2018; year += 1) {
-            //get population for current year
-            var value = city.properties["gdp_" + String(year)];
-            //add value to array
-            allValues.push(value);
-            //console.log(value);
-        }
-    }
-    //get min, max, mean stats for our array
-    dataStats.min = Math.min(...allValues);
-    dataStats.max = Math.max(...allValues);
-    //calculate meanValue
-    var sum = allValues.reduce(function (a, b) { return a + b; });
-    dataStats.mean = sum / allValues.length;
+//     return popupContent;
+// };
 
-};
+//     //create new popup content
+//     var popupContent = new PopupContent(feature.properties, attribute);
 
-function createLegend(attributes) {
-    var LegendControl = L.Control.extend({
-        options: {
-            position: 'bottomright'
-        },
+//     //change the formatting
+//     popupContent.formatted = "<h2>" + popupContent.formatted + " million</h2>";
 
-        onAdd: function () {
-            // create the control container with a particular class name
-            var container = L.DomUtil.create('div', 'legend-control-container');
+//     //add popup to circle marker    
+//     layer.bindPopup(popupContent.formatted, {          
+//     	offset: new L.Point(0,-options.radius)    
+//     });
 
-            //PUT YOUR SCRIPT TO CREATE THE TEMPORAL LEGEND HERE
-            container.innerHTML = '<p class="temporalLegend">GDP in <span class="year".split("_")[1]>2012</span></p>';
-            //----------
-            //array of circle names to base loop on  
-            var circles = ["max", "mean", "min"];
-            var svg = '<svg id="attribute-legend" width="170px" height="60px">';
-
-            //Step 2: loop to add each circle and text to svg string  
-            for (var i = 0; i < circles.length; i++) {
-                console.log(dataStats[circles[i]])
-
-                //Step 3: assign the r and cy attributes  
-                var radius = calcPropRadius(dataStats[circles[i]]);
-                var cy = 59 - radius;
-
-                //circle string  
-                svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '"cy="' + cy + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="30"/>';
-                var textY = i * 20 + 20;
-
-        //text string
-        svg +=
-          '<text id="' +
-          circles[i] +
-          '-text" x="65" y="' +
-          textY +
-          '">' +
-          Math.round(dataStats[circles[i]])  +
-          " million $" +
-          "</text>";
-            };
-
-            //close svg string  
-            svg += "</svg>";
-
-            container.insertAdjacentHTML('beforeend', svg);
-
-            return container;
-        }
-        
-    });
-
-    map.addControl(new LegendControl());
-    
-};
-
-
-
-document.addEventListener('DOMContentLoaded', createMap);
-
+document.addEventListener('DOMContentLoaded', createMap)
 
 
 

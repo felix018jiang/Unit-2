@@ -3,6 +3,7 @@
 //declare map variable globally so all functions have access
 var map;
 var minValue;
+var dataStats = {};
 
 function createMap() {
 
@@ -35,7 +36,7 @@ function calcMinValue(data) {
             var value = city.properties["gdp_" + String(year)];
             //add value to array
             allValues.push(value);
-            console.log(value);
+            //console.log(value);
         }
     }
     //get minimum value of our array
@@ -109,6 +110,8 @@ function createPropSymbols(data, attributes) {
 function updatePropSymbols(attribute) {
     map.eachLayer(function (layer) {
         console.log("here!");
+        document.querySelector("span.year").innerHTML = attribute;
+
         if (layer.feature && layer.feature.properties[attribute]) {
             //access feature properties
             var props = layer.feature.properties;
@@ -204,6 +207,7 @@ function createSequenceControls(attributes) {
     });
 };
 
+
 function getData(map) {
     //load the data
     fetch("data/USCities.geojson")
@@ -216,10 +220,84 @@ function getData(map) {
             //call function to create proportional symbols
             createPropSymbols(json, attributes);
             createSequenceControls(attributes);
+            calcStats(json)
+            createLegend(attributes);
+
         })
 };
 
-document.addEventListener('DOMContentLoaded', createMap)
+function calcStats(data) {
+    //create empty array to store all data values
+    var allValues = [];
+    //loop through each city
+
+
+    for (var city of data.features) {
+        //loop through each year
+        for (var year = 2012; year <= 2018; year += 1) {
+            //get population for current year
+            var value = city.properties["gdp_" + String(year)];
+            //add value to array
+            allValues.push(value);
+            //console.log(value);
+        }
+    }
+    //get min, max, mean stats for our array
+    dataStats.min = Math.min(...allValues);
+    dataStats.max = Math.max(...allValues);
+    //calculate meanValue
+    var sum = allValues.reduce(function (a, b) { return a + b; });
+    dataStats.mean = sum / allValues.length;
+
+};
+
+function createLegend(attributes) {
+    var LegendControl = L.Control.extend({
+        options: {
+            position: 'bottomright'
+        },
+
+        onAdd: function () {
+            // create the control container with a particular class name
+            var container = L.DomUtil.create('div', 'legend-control-container');
+
+            //PUT YOUR SCRIPT TO CREATE THE TEMPORAL LEGEND HERE
+            container.innerHTML = '<p class="temporalLegend">Population in <span class="year">1980</span></p>';
+            //----------
+            //array of circle names to base loop on  
+            var circles = ["max", "mean", "min"];
+            var svg = '<svg id="attribute-legend" width="130px" height="130px">';
+
+            //Step 2: loop to add each circle and text to svg string  
+            for (var i = 0; i < circles.length; i++) {
+                console.log(dataStats[circles[i]])
+
+                //Step 3: assign the r and cy attributes  
+                var radius = calcPropRadius(dataStats[circles[i]]);
+                var cy = 130 - radius;
+
+                //circle string  
+                svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '"cy="' + cy + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="65"/>';
+            };
+
+            //close svg string  
+            svg += "</svg>";
+            //---------
+
+            //add attribute legend svg to container
+            container.insertAdjacentHTML('beforeend', svg);
+
+            return container;
+        }
+    });
+
+    map.addControl(new LegendControl());
+};
+
+
+
+document.addEventListener('DOMContentLoaded', createMap);
+
 
 
 

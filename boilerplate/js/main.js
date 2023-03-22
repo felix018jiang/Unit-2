@@ -27,6 +27,53 @@ function createMap() {
 
     //call getData function
     getData(map);
+    L.Control.textbox = L.Control.extend({
+        onAdd: function (map) {
+
+            var text = L.DomUtil.create('div');
+            text.id = "info_text";
+            text.innerHTML = "<strong></strong>"
+            return text;
+        },
+
+        onRemove: function (map) {
+            // Nothing to do here
+        }
+    });
+    L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
+    L.control.textbox({ position: 'bottomleft' }).addTo(map);
+    // title part
+    // L.Control.textbox = L.Control.extend({
+    //     onAdd: function (map) {
+
+    //         var text = L.DomUtil.create('div');
+    //         text.id = "info_text";
+    //         text.innerHTML = "<strong>text here</strong>"
+    //         return text;
+    //     },
+
+    //     onRemove: function (map) {
+    //         // Nothing to do here
+    //     }
+    // });
+    L.control.textbox({ position: 'topleft' }).addTo(map);
+    L.control.textbox = function (opts) { return new L.Control.textbox(opts); }
+
+    // add info
+    var info = L.control();
+    // define what happens when control is added to map
+    info.onAdd = function (map) {
+        // create a div with class info
+        this._div = L.DomUtil.create('div', 'title-container');
+        // add some content
+        this._div.innerHTML = '<h2>U.S. Cities With the Largest Economies</h2>';
+        var container = L.DomUtil.create('div', 'title-container');
+        // return div
+        return this._div;
+    };
+    
+    // add control to map
+    info.addTo(map);
 };
 
 
@@ -330,6 +377,16 @@ function calcStats(data) {
     dataStats.mean = sum / allValues.length;
 
 };
+// function createTitle(){
+//     var TitleControl = L.Control.extend({
+//         options:{
+//             position: 'topleft'
+//         },
+//     onAdd: function(){
+
+//     }
+//     })
+// };
 
 function createLegend(attributes) {
     var LegendControl = L.Control.extend({
@@ -342,7 +399,8 @@ function createLegend(attributes) {
             var container = L.DomUtil.create('div', 'legend-control-container');
 
             //PUT YOUR SCRIPT TO CREATE THE TEMPORAL LEGEND HERE
-            container.innerHTML = '<p class="temporalLegend">GDP in <span class="year".split("_")[1]>2012</span></p>';
+            container.innerHTML = '<h3 class="temporalLegend">GDP in <span class="year".split("_")[1]>2012</span></h3>';
+
             //----------
             //array of circle names to base loop on  
             var circles = ["max", "mean", "min"];
@@ -389,6 +447,7 @@ function createLegend(attributes) {
 
 
 document.addEventListener('DOMContentLoaded', createMap);
+
 
 
 
